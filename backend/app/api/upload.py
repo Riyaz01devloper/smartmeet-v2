@@ -73,3 +73,13 @@ async def upload_Audio (file:UploadFile = File(...)):
     
     
 }
+# from fastapi import APIRouter, UploadFile, File
+
+# router = APIRouter()
+
+# @router.post("/upload")
+# async def upload_Audio(file: UploadFile = File(...)):
+#     return {
+#         "success": True,
+#         "filename": file.filename
+#     }

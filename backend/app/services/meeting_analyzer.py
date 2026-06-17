@@ -16,6 +16,11 @@ model = genai.GenerativeModel("gemini-2.5-flash")
 
 
 def analyze_meeting(transcript: str):
+    return {
+            "summary": "AI analysis unavailable",
+            "tasks": [],
+            "decisions": []
+        }
 
     prompt = f"""
 Analyze the following meeting transcript and return ONLY valid JSON.
@@ -54,8 +59,4 @@ Transcript:
         print("JSON Parse Error:", e)
         print("Gemini Response:", text)
 
-        return {
-            "summary": "AI analysis unavailable",
-            "tasks": [],
-            "decisions": []
-        }
+       
