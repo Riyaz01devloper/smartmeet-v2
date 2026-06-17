@@ -28,7 +28,8 @@ async def upload_Audio (file:UploadFile = File(...)):
 
     print("Step 1: File Saved")
 
-    transcript = transcribe_audio(file_path)
+    # transcript = transcribe_audio(file_path)
+    transcript = "This is a test transcript"
 
     print("Step 2: Transcription Complete")
     print("Word Count:", len(transcript.split()))
