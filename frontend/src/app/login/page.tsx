@@ -1,10 +1,10 @@
 "use client";
-import "./globals.css";
+// import "./globals.css";
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import api from "../services/api";
+import api from "../../services/api";
 
 export default function Login() {
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 px-4">
       <div className="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8">
 
         <div className="text-center mb-8">
@@ -51,7 +51,7 @@ export default function Login() {
         <form onSubmit={handleLogin} className="space-y-5">
 
           <div>
-            <label className="block text-sm font-semibold mb-2">
+            <label className="block text-sm font-semibold text-slate-800 mb-2">
               Email
             </label>
 
@@ -61,12 +61,11 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+className="w-full border border-slate-300 text-slate-900 placeholder:text-slate-400 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"            />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold mb-2">
+            <label className="block text-sm font-semibold text-slate-800 mb-2">
               Password
             </label>
 
@@ -76,8 +75,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+className="w-full border border-slate-300 text-slate-900 placeholder:text-slate-400 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"            />
           </div>
 
           <button
