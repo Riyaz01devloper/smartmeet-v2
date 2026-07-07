@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/services/api";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -33,6 +34,7 @@ export default function RegisterPage() {
   return (
     <div>
       <h1>Register</h1>
+      
 
       <form onSubmit={handleRegister}>
         <input
@@ -60,6 +62,15 @@ export default function RegisterPage() {
           Register
         </button>
       </form>
+      <p className="mt-4 text-center">
+  Already have an account?{" "}
+  <Link
+    href="/login"
+    className="text-blue-600 font-semibold hover:underline"
+  >
+    Login
+  </Link>
+</p>
     </div>
   );
 }

@@ -23,7 +23,19 @@ export default function Home() {
         
 
           <div className="flex justify-center gap-4 mt-10">
- 
+             <Link
+    href="/login"
+    className="bg-blue-600 text-white px-6 py-3 rounded-lg"
+  >
+    Login
+  </Link>
+ <Link
+    href="/register"
+    className="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg"
+  >
+    Register
+  </Link>
+
 
             <Link
               href="/upload"
