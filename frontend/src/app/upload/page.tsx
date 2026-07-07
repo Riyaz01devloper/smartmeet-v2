@@ -1,7 +1,7 @@
 "use client";
 import toast from "react-hot-toast";
 import { useState } from "react";
-import { api } from "@/services/api";
+import  api  from "@/services/api";
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);

@@ -3,7 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.upload import router as upload_router
 from app.api.meeting import router as meeting_router
-from app.database.db import engine, Base
+from app.database.db import Base, engine
+from app.database import models
+from app.api.auth import router as auth_router
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -28,6 +30,7 @@ app.add_middleware(
 # Routers
 app.include_router(upload_router)
 app.include_router(meeting_router)
+app.include_router(auth_router)
 
 # Test Route
 @app.get("/")

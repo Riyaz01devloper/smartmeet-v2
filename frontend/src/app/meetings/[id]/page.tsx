@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { api } from "@/services/api";
+import api  from "@/services/api";
 import { jsPDF } from "jspdf";
 
 export default function MeetingDetailsPage() {

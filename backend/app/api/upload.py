@@ -4,7 +4,11 @@ from app.database.db import SessionLocal
 from app.database.models import Meeting
 from app.services.meeting_analyzer import analyze_meeting
 import json
-
+from fastapi import Depends
+from app.utils.dependencies import get_current_user
+from app.database.models import User
+from app.database.db import get_db
+from sqlalchemy.orm import Session
 from app.services.meeting_analyzer import analyze_meeting
 import os 
 import shutil
@@ -16,13 +20,18 @@ UPLOAD_DIR = "uploads/audio"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.post ("/upload")
-async def upload_Audio (file:UploadFile = File(...)): 
+async def upload_Audio (file:UploadFile = File(...), 
+                        current_user: User=Depends(get_current_user),
+                           db: Session = Depends(get_db)
+ ): 
+    # db = SessionLocal()
+    
     file_path = os.path.join(
         UPLOAD_DIR, 
         file.filename
         
     )
-    print("Step 1: File Saved")
+    # print("Step 1: File Saved")
     with open(file_path, "wb") as buffer:
       shutil.copyfileobj(file.file, buffer)
 
@@ -57,7 +66,8 @@ async def upload_Audio (file:UploadFile = File(...)):
         filename=file.filename,
         file_path=file_path,
         transcript=transcript,
-        summary=summary
+        summary=summary,
+        user_id=current_user.id
         
     )
     db.add(meeting) 
