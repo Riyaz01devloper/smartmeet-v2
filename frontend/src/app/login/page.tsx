@@ -1,9 +1,17 @@
 "use client";
-// import "./globals.css";
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  LockKeyhole,
+  Mail,
+  Sparkles,
+} from "lucide-react";
+import toast from "react-hot-toast";
 import api from "../../services/api";
 
 export default function Login() {
@@ -11,10 +19,17 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      toast.error("Please enter your email and password.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -25,78 +40,174 @@ export default function Login() {
 
       localStorage.setItem("token", res.data.access_token);
 
-      router.push("/dashboard");
+      toast.success("Welcome back!");
+
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 500);
     } catch (err) {
       console.error(err);
-      alert("Invalid Email or Password");
+      toast.error("Invalid email or password.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 px-4">
-      <div className="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8">
+    <main className="relative min-h-[calc(100vh-4rem)] overflow-hidden bg-[#080b12] text-white">
+      {/* Background glow */}
+      <div className="pointer-events-none absolute left-1/2 top-[-180px] h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-indigo-500/[0.07] blur-[130px]" />
 
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-700">
-            SmartMeet AI
-          </h1>
+      <div className="relative mx-auto flex min-h-[calc(100vh-4rem)] max-w-md items-center px-5 py-12">
+        <div className="w-full">
 
-          <p className="text-gray-500 mt-2">
-            Login to continue to your dashboard
-          </p>
-        </div>
+          {/* Header */}
+          <div className="mb-8 text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-indigo-400/20 bg-indigo-500/10">
+              <div className="h-3 w-3 rounded-full bg-indigo-400 shadow-[0_0_18px_rgba(129,140,248,0.9)]" />
+            </div>
 
-        <form onSubmit={handleLogin} className="space-y-5">
+            <div className="mt-6 flex items-center justify-center gap-2 text-xs font-medium text-indigo-400">
+              <Sparkles size={13} />
+              SmartMeet AI
+            </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-800 mb-2">
-              Email
-            </label>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight">
+              Welcome back
+            </h1>
 
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-className="w-full border border-slate-300 text-slate-900 placeholder:text-slate-400 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"            />
+            <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-400">
+              Sign in to access your meetings, summaries and AI-generated
+              insights.
+            </p>
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-800 mb-2">
-              Password
-            </label>
+          {/* Login card */}
+          <div className="rounded-2xl border border-white/[0.08] bg-[#10151f] p-6 shadow-2xl shadow-black/30 sm:p-8">
 
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-className="w-full border border-slate-300 text-slate-900 placeholder:text-slate-400 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"            />
+            <form onSubmit={handleLogin} className="space-y-5">
+
+              {/* Email */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="mb-2 block text-sm font-medium text-slate-200"
+                >
+                  Email address
+                </label>
+
+                <div className="relative">
+                  <Mail
+                    size={17}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600"
+                  />
+
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    autoComplete="email"
+                    className="w-full rounded-xl border border-[#273244] bg-[#080b12] py-3.5 pl-11 pr-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+                  />
+                </div>
+              </div>
+
+              {/* Password */}
+              <div>
+                <div className="mb-2 flex items-center justify-between">
+                  <label
+                    htmlFor="password"
+                    className="text-sm font-medium text-slate-200"
+                  >
+                    Password
+                  </label>
+                </div>
+
+                <div className="relative">
+                  <LockKeyhole
+                    size={17}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600"
+                  />
+
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete="current-password"
+                    className="w-full rounded-xl border border-[#273244] bg-[#080b12] py-3.5 pl-11 pr-12 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-600 transition hover:bg-white/[0.05] hover:text-slate-300"
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                  >
+                    {showPassword ? (
+                      <EyeOff size={17} />
+                    ) : (
+                      <Eye size={17} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-500 px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {loading ? (
+                  "Signing in..."
+                ) : (
+                  <>
+                    Sign in
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform group-hover:translate-x-0.5"
+                    />
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Divider */}
+            <div className="my-7 flex items-center gap-4">
+              <div className="h-px flex-1 bg-white/[0.06]" />
+              <span className="text-xs text-slate-600">OR</span>
+              <div className="h-px flex-1 bg-white/[0.06]" />
+            </div>
+
+            {/* Register */}
+            <div className="text-center">
+              <p className="text-sm text-slate-500">
+                Don't have an account?{" "}
+                <Link
+                  href="/register"
+                  className="font-medium text-indigo-400 transition hover:text-indigo-300"
+                >
+                  Create an account
+                </Link>
+              </p>
+            </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition disabled:bg-gray-400"
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
-
-        <div className="mt-6 text-center text-gray-600">
-          Don't have an account?{" "}
-          <Link
-            href="/register"
-            className="text-blue-600 font-semibold hover:underline"
-          >
-            Create Account
-          </Link>
+          {/* Bottom text */}
+          <div className="mt-7 flex items-center justify-center gap-2 text-xs text-slate-600">
+            <LockKeyhole size={12} />
+            <span>Secure authentication</span>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
