@@ -61,7 +61,7 @@ async def upload_Audio (file:UploadFile = File(...),
     print("Step 3: Analysis Complete")
     tasks=[]
     
-    db=SessionLocal() 
+    # db=SessionLocal() 
     meeting= Meeting(
         filename=file.filename,
         file_path=file_path,

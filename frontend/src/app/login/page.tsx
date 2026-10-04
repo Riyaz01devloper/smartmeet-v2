@@ -39,6 +39,7 @@ export default function Login() {
       });
 
       localStorage.setItem("token", res.data.access_token);
+      window.dispatchEvent(new Event("auth-change"));
 
       toast.success("Welcome back!");
 

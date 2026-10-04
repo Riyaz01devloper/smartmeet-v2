@@ -18,10 +18,10 @@ def get_meeting(
     
     db= SessionLocal()
     
-    meeting =db.query(Meeting).filter(
-        Meeting.user_id==current_user.id,
-        Meeting.user_id==current_user.id
-    ).first()
+    meeting = db.query(Meeting).filter(
+    Meeting.id == meeting_id,
+    Meeting.user_id == current_user.id
+).first()
     
     if not meeting:
         raise HTTPException(status_code=404, detail="Meeting not found")
