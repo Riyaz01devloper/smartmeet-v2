@@ -7,11 +7,12 @@ from app.database.db import Base, engine
 from app.database import models
 from app.api.auth import router as auth_router
 
-# Create tables
+# Create tables and apply lightweight column migrations
 Base.metadata.create_all(bind=engine)
+models.run_migrations()
 
 # Create FastAPI app
-app = FastAPI()
+app = FastAPI(title="SmartMeet AI API", version="1.0.0")
 
 # CORS Middleware
 app.add_middleware(
@@ -19,9 +20,10 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
-         "https://smartmeet-v2.vercel.app",
-           "https://smartmeet-v2-cuiafryce-riyaz-maliks-projects.vercel.app"
+        "https://smartmeet-v2.vercel.app",
+        "https://smartmeet-v2-cuiafryce-riyaz-maliks-projects.vercel.app",
     ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

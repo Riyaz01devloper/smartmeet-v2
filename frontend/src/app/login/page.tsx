@@ -44,7 +44,7 @@ export default function Login() {
       toast.success("Welcome back!");
 
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/meetings");
       }, 500);
     } catch (err) {
       console.error(err);
