@@ -6,7 +6,7 @@ from fastapi import APIRouter, UploadFile, File, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database.db import get_db
-from app.database.models import Meeting, User
+from app.database.models import Meeting, User, ActionItem
 from app.utils.dependencies import get_current_user
 from app.services.whisper_service import transcribe_audio
 from app.services.meeting_analyzer import analyze_meeting
@@ -73,7 +73,7 @@ async def upload_audio(
         tasks = analysis.get("tasks", [])
         decisions = analysis.get("decisions", [])
 
-        # Persist meeting in database with tasks and decisions
+        # Persist meeting in database
         meeting = Meeting(
             filename=clean_original_name,
             file_path=file_path,
@@ -87,6 +87,27 @@ async def upload_audio(
         db.commit()
         db.refresh(meeting)
 
+        # Persist structured action items in action_items table
+        for t in tasks:
+            title = t.get("title") if isinstance(t, dict) else str(t)
+            desc = t.get("description", "") if isinstance(t, dict) else ""
+            assignee = t.get("assignee") if isinstance(t, dict) else None
+            due = t.get("due_date") if isinstance(t, dict) else None
+            prio = t.get("priority", "Medium") if isinstance(t, dict) else "Medium"
+
+            action_item = ActionItem(
+                meeting_id=meeting.id,
+                user_id=current_user.id,
+                title=title,
+                description=desc,
+                assignee=assignee,
+                due_date=due,
+                priority=prio,
+                status="Pending"
+            )
+            db.add(action_item)
+        db.commit()
+
         return {
             "message": "Audio uploaded successfully",
             "meeting_id": meeting.id,
@@ -98,7 +119,6 @@ async def upload_audio(
         }
 
     except HTTPException:
-        # If any validation or controlled exception occurred, remove file
         if os.path.exists(file_path):
             try:
                 os.remove(file_path)
@@ -107,7 +127,6 @@ async def upload_audio(
         raise
 
     except Exception as e:
-        # Catch unexpected errors, clean up disk, and return 500
         if os.path.exists(file_path):
             try:
                 os.remove(file_path)
