@@ -10,7 +10,9 @@ import {
   User,
   ListChecks,
   Search,
-  FolderOpen
+  FolderOpen,
+  Download,
+  Smartphone
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -67,6 +69,15 @@ export default function Navbar() {
 
         {/* Navigation */}
         <div className="flex items-center gap-1.5 sm:gap-3">
+          {/* Download App Link */}
+          <Link
+            href="/download"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700/80 bg-slate-900/60 px-2.5 sm:px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white hover:border-slate-600 transition"
+          >
+            <Download size={13} className="text-emerald-400" />
+            <span>Get App</span>
+          </Link>
+
           {isLoggedIn ? (
             <>
               <Link
@@ -94,7 +105,7 @@ export default function Navbar() {
                 href="/search"
                 className="hidden rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/[0.06] hover:text-white sm:block"
               >
-                Intelligence Search
+                Search
               </Link>
 
               <Link
@@ -105,7 +116,7 @@ export default function Navbar() {
               </Link>
 
               {/* User Menu */}
-              <div className="relative ml-2">
+              <div className="relative ml-1">
                 <button
                   type="button"
                   onClick={() => setMenuOpen((open) => !open)}
@@ -169,6 +180,15 @@ export default function Navbar() {
                     </Link>
 
                     <Link
+                      href="/download"
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-white/[0.05] hover:text-white"
+                    >
+                      <Smartphone size={16} className="text-emerald-400" />
+                      Download Apps
+                    </Link>
+
+                    <Link
                       href="/upload"
                       onClick={() => setMenuOpen(false)}
                       className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-white/[0.05] hover:text-white"
@@ -195,7 +215,7 @@ export default function Navbar() {
             <>
               <Link
                 href="/login"
-                className="rounded-lg border border-white/[0.10] bg-white/[0.03] px-4 py-2 text-sm font-medium text-slate-200 transition-all hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-white"
+                className="rounded-lg border border-white/[0.10] bg-white/[0.03] px-3.5 py-1.5 text-xs sm:text-sm font-medium text-slate-200 transition-all hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-white"
               >
                 Sign in
               </Link>

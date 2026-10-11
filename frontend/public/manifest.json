@@ -1,0 +1,42 @@
+{
+  "name": "SmartMeet AI - Meeting Intelligence",
+  "short_name": "SmartMeet",
+  "description": "AI-powered meeting intelligence for transcription, summaries, decisions, and action items.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080b12",
+  "theme_color": "#6366f1",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Upload Meeting",
+      "short_name": "Upload",
+      "description": "Upload a new meeting recording",
+      "url": "/upload",
+      "icons": [{ "src": "/icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Meeting Hub",
+      "short_name": "Dashboard",
+      "description": "View intelligence dashboard",
+      "url": "/dashboard",
+      "icons": [{ "src": "/icon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Action Items",
+      "short_name": "Tasks",
+      "description": "Manage action items and commitments",
+      "url": "/tasks",
+      "icons": [{ "src": "/icon.svg", "sizes": "96x96" }]
+    }
+  ]
+}
+
